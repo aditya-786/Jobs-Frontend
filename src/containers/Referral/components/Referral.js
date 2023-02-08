@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { routeMap, RoutesConts, stacks, MITRA_APP_BACKEND } from '../../../constants/RouterConstants';
+import { routeMap, RoutesConts, stacks, JOBS_BACKEND } from '../../../constants/RouterConstants';
 import { useEffect, useState } from 'react';
 import { sendOtp, loginUser, isSessionActive, getNotAppliedJobs, getJobsStatus, refer } from '../../../service/Api'
 import { NavLink } from 'react-router-dom'
@@ -35,19 +35,19 @@ const Referral = () => {
 
         function containsOnlyNumbers(str) {
             return /^([0-9]+-)*([0-9]+)$/.test(str);
-          }
-          
+        }
+
         const { phonenumber } = inpval;
         if (phonenumber === "") {
             alert('phonenumber field is requred')
         } else if (phonenumber.length != 10) {
             alert('Please enter the valid phone number')
-        } 
-        else if(!containsOnlyNumbers(phonenumber)){
+        }
+        else if (!containsOnlyNumbers(phonenumber)) {
             alert('Please enter only digits')
         }
         else {
-            await refer(MITRA_APP_BACKEND.REFER_A_FRIEND, { referrerUserId: userid, referralPhoneNumber: inpval.phonenumber });
+            await refer(JOBS_BACKEND.REFER_A_FRIEND, { referrerUserId: userid, referralPhoneNumber: inpval.phonenumber });
             alert("Your friend is referred to Mitra Partner.")
         }
         window.location.reload();

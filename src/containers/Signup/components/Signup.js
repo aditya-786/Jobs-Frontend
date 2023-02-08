@@ -6,9 +6,9 @@ import { NavLink } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { routeMap, RoutesConts, stacks, MITRA_APP_BACKEND } from '../../../constants/RouterConstants';
+import { routeMap, RoutesConts, stacks, JOBS_BACKEND } from '../../../constants/RouterConstants';
 import axios from 'axios';
-import {registerUser} from '../../../service/Api'
+import { registerUser } from '../../../service/Api'
 
 const Signup = () => {
 
@@ -63,7 +63,7 @@ const Signup = () => {
 
     }
 
-   async function addData(e){
+    async function addData(e) {
         e.preventDefault();
 
         const { firstname, lastname, phonenumber, email, dob, gender } = inpval;
@@ -108,11 +108,11 @@ const Signup = () => {
         } else {
             console.log("data added succesfully");
             const data = preparaUserRegistrationData();
-            const response = await registerUser(MITRA_APP_BACKEND.REGISTER_USER, data);
-            if(response){
+            const response = await registerUser(JOBS_BACKEND.REGISTER_USER, data);
+            if (response) {
                 const userid = response.payload[0].id;
-                localStorage.setItem("userid",userid);
-                const loginUrl = RoutesConts.LOGIN+'?userId='+userid;
+                localStorage.setItem("userid", userid);
+                const loginUrl = RoutesConts.LOGIN + '?userId=' + userid;
                 history(loginUrl)
             }
         }
@@ -120,7 +120,7 @@ const Signup = () => {
     }
 
     return (
-        <>  
+        <>
             <div className="container mt-3">
                 <section className='d-flex justify-content-between'>
                     <div className="left_data mt-3 p-3" style={{ width: "100%" }}>

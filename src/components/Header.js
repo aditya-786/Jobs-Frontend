@@ -8,10 +8,10 @@ const Header = () => {
     return (
         <>
             <Navbar bg="dark" variant="dark">
-                    <NavLink to="/" style={{
-                        marginLeft:'1%',
-                        fontFamily:'Courier New'
-                    }}className="text-decoration-none text-light">Mitra for Blue Collar Workers</NavLink>
+                <NavLink to="/" style={{
+                    marginLeft: '1%',
+                    fontFamily: 'Courier New'
+                }} className="text-decoration-none text-light">Find and Apply Jobs here</NavLink>
             </Navbar>
         </>
     )

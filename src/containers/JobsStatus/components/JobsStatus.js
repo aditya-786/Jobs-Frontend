@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { routeMap, RoutesConts, stacks, MITRA_APP_BACKEND } from '../../../constants/RouterConstants';
+import { routeMap, RoutesConts, stacks, JOBS_BACKEND } from '../../../constants/RouterConstants';
 import { useEffect, useState } from 'react';
 import { sendOtp, loginUser, isSessionActive, getNotAppliedJobs, getJobsStatus } from '../../../service/Api'
 import { NavLink } from 'react-router-dom'
@@ -43,23 +43,23 @@ const JobsStatus = () => {
     }
     useEffect(() => {
         async function getJobs() {
-            const response = await getJobsStatus(MITRA_APP_BACKEND.GET_JOBS_STATUS, `?userid=${userid}`);
+            const response = await getJobsStatus(JOBS_BACKEND.GET_JOBS_STATUS, `?userid=${userid}`);
             return response;
         }
         getJobs().then((response) => {
             console.log("Response-> ", response);
-            if(!response.payload){
+            if (!response.payload) {
                 setJobsStatusData(response);
                 setJobStatusesPresent(true);
             }
-            
+
 
 
         });
     }, []);
     return (
-        <div style = {{
-            backgroundColor:'#F8F8F8'
+        <div style={{
+            backgroundColor: '#F8F8F8'
         }}>
             <ul class="nav nav-tabs">
                 <li class="nav-item">
@@ -88,89 +88,89 @@ const JobsStatus = () => {
 
             {JobStatusesPresent === true &&
                 jobsStatusData.jobs.map((data, idx) => (
-                    <div class = "card">
-                    <div class="card-body">
+                    <div class="card">
                         <div class="card-body">
-                            <JobStatus jobLevels={jobsStatusData.jobLevels}
-                                currentJobLevel={data.level}
-                                currentJobStatus={data.status}
-                                currentJobStatusMessage={data.message}
-                                activeStep={getJobLevel(data.level)}
-                            />
-                        </div>
+                            <div class="card-body">
+                                <JobStatus jobLevels={jobsStatusData.jobLevels}
+                                    currentJobLevel={data.level}
+                                    currentJobStatus={data.status}
+                                    currentJobStatusMessage={data.message}
+                                    activeStep={getJobLevel(data.level)}
+                                />
+                            </div>
 
-                        <div class="card-body" style={{
-                            backgroundColor: '#E8E8E8'
-                        }}>
-
-                            <Box sx={{ width: '100%' }}>
-                                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                    <Grid item xs={6}>
-                                        <Item style = {{
-                                            color : 'black',
-                                            fontWeight:'bold',
-                                            textAlign: 'center',
-                                            fontFamily: 'Andale Mono',
-                                        }}>Job AppliedAt</Item>
-                                        <Item>{data.createdat}</Item>
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                    <Item style = {{
-                                            color : 'black',
-                                            fontWeight:'bold',
-                                            textAlign: 'center',
-                                            fontFamily: 'Andale Mono',
-                                        }}>Company</Item> 
-                                        <Item>{data.companyname}</Item>
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                    <Item style = {{
-                                            color : 'black',
-                                            fontWeight:'bold',
-                                            textAlign: 'center',
-                                            fontFamily: 'Andale Mono',
-                                        }}>Job Role</Item>                                    
-                                          <Item>{data.jobrole}</Item>
-                                         </Grid>
-                                         <Grid item xs={6}>
-                                    <Item style = {{
-                                            color : 'black',
-                                            fontWeight:'bold',
-                                            textAlign: 'center',
-                                            fontFamily: 'Andale Mono',
-                                        }}>Base Salary</Item>                                    
-                                          <Item>{data.basesalary}</Item>
-                                         </Grid>
-                                    
-                                </Grid>
-                            </Box>
-
-                            <br></br>
-                            <Accordion style={{
-                                backgroundColor: '#F8F8F8'
+                            <div class="card-body" style={{
+                                backgroundColor: '#E8E8E8'
                             }}>
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1a-content"
-                                    id="panel1a-header"
-                                >
-                                    <Typography><span style={{
-                                        fontWeight: 'bold',
-                                        fontFamily: 'serif'
-                                    }}>Job Details</span> </Typography>
-                                </AccordionSummary>
-                                <div style={{
-                                    backgroundColor: '#212429',
-                                    margin: '2%',
-                                    borderRadius: '2%',
-                                }}>
-                                    <Job data={data} />
-                                </div>
-                            </Accordion>
-                        </div>
 
-                    </div>
-                    <hr></hr>
+                                <Box sx={{ width: '100%' }}>
+                                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                        <Grid item xs={6}>
+                                            <Item style={{
+                                                color: 'black',
+                                                fontWeight: 'bold',
+                                                textAlign: 'center',
+                                                fontFamily: 'Andale Mono',
+                                            }}>Job AppliedAt</Item>
+                                            <Item>{data.createdat}</Item>
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <Item style={{
+                                                color: 'black',
+                                                fontWeight: 'bold',
+                                                textAlign: 'center',
+                                                fontFamily: 'Andale Mono',
+                                            }}>Company</Item>
+                                            <Item>{data.companyname}</Item>
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <Item style={{
+                                                color: 'black',
+                                                fontWeight: 'bold',
+                                                textAlign: 'center',
+                                                fontFamily: 'Andale Mono',
+                                            }}>Job Role</Item>
+                                            <Item>{data.jobrole}</Item>
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <Item style={{
+                                                color: 'black',
+                                                fontWeight: 'bold',
+                                                textAlign: 'center',
+                                                fontFamily: 'Andale Mono',
+                                            }}>Base Salary</Item>
+                                            <Item>{data.basesalary}</Item>
+                                        </Grid>
+
+                                    </Grid>
+                                </Box>
+
+                                <br></br>
+                                <Accordion style={{
+                                    backgroundColor: '#F8F8F8'
+                                }}>
+                                    <AccordionSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel1a-content"
+                                        id="panel1a-header"
+                                    >
+                                        <Typography><span style={{
+                                            fontWeight: 'bold',
+                                            fontFamily: 'serif'
+                                        }}>Job Details</span> </Typography>
+                                    </AccordionSummary>
+                                    <div style={{
+                                        backgroundColor: '#212429',
+                                        margin: '2%',
+                                        borderRadius: '2%',
+                                    }}>
+                                        <Job data={data} />
+                                    </div>
+                                </Accordion>
+                            </div>
+
+                        </div>
+                        <hr></hr>
 
                     </div>
 

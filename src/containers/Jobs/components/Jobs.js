@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { routeMap, RoutesConts, stacks, MITRA_APP_BACKEND } from '../../../constants/RouterConstants';
+import { routeMap, RoutesConts, stacks, JOBS_BACKEND } from '../../../constants/RouterConstants';
 import { useEffect, useState } from 'react';
 import { sendOtp, loginUser, isSessionActive, getNotAppliedJobs } from '../../../service/Api'
 import { NavLink } from 'react-router-dom'
@@ -17,7 +17,7 @@ const Jobs = () => {
 
     useEffect(() => {
         async function getJobs() {
-            const response = await getNotAppliedJobs(MITRA_APP_BACKEND.NOT_APPLIED_JOBS, `?userid=${userid}`);
+            const response = await getNotAppliedJobs(JOBS_BACKEND.NOT_APPLIED_JOBS, `?userid=${userid}`);
             return response;
         }
         getJobs().then((response) => {
@@ -29,8 +29,8 @@ const Jobs = () => {
 
 
     return (
-        <div style ={{
-            backgroundColor:'#F8F8F8'
+        <div style={{
+            backgroundColor: '#F8F8F8'
         }}>
             <ul class="nav nav-tabs">
                 <li class="nav-item">
@@ -47,23 +47,23 @@ const Jobs = () => {
                 </li>
             </ul>
 
-            <h5 style = {{
-                color : '#212429',
-                textAlign:'center',
-                margin : '2%',
-                fontFamily:'Andale Mono',
-                fontWeight:'bold'
+            <h5 style={{
+                color: '#212429',
+                textAlign: 'center',
+                margin: '2%',
+                fontFamily: 'Andale Mono',
+                fontWeight: 'bold'
             }}>New Jobs</h5>
             <hr></hr>
 
             {jobsData.map((data, idx) => (
-                <div style ={{
-                    backgroundColor:'#212429',
-                    margin : '2%',
+                <div style={{
+                    backgroundColor: '#212429',
+                    margin: '2%',
                     borderRadius: '2%',
                 }}>
                     <Job data={data} />
-                    <ApplyButton userid={userid} jobid={data.id}/>
+                    <ApplyButton userid={userid} jobid={data.id} />
                 </div>
             ))}
 

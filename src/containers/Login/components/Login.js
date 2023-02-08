@@ -5,10 +5,10 @@ import SIgn_img from '../../Signup/components/SIgn_img'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { routeMap, RoutesConts, stacks, MITRA_APP_BACKEND } from '../../../constants/RouterConstants';
+import { routeMap, RoutesConts, stacks, JOBS_BACKEND } from '../../../constants/RouterConstants';
 import { useEffect } from 'react';
 import Card from '@mui/material/Card';
-import {sendOtp,loginUser,isSessionActive} from '../../../service/Api'
+import { sendOtp, loginUser, isSessionActive } from '../../../service/Api'
 import { NavLink } from 'react-router-dom'
 
 
@@ -16,7 +16,7 @@ const Login = () => {
     let userid = localStorage.getItem("userid");
     const history = useNavigate();
 
-    const [isUserLogin,setIsUserLogin] = useState(false);
+    const [isUserLogin, setIsUserLogin] = useState(false);
     const [inpval, setInpval] = useState({
         phonenumber: "",
         otp: ""
@@ -24,31 +24,31 @@ const Login = () => {
 
 
     useEffect(() => {
-        if(userid){
+        if (userid) {
             // check you are logout or not.
-            async function checkSession(){
-                const response = await isSessionActive(MITRA_APP_BACKEND.SESSION_STATUS,`?userid=${userid}`);
+            async function checkSession() {
+                const response = await isSessionActive(JOBS_BACKEND.SESSION_STATUS, `?userid=${userid}`);
                 return response;
             }
-            checkSession().then((response) =>{
-                if(response === true){
-                    console.log("Session is active",response);
+            checkSession().then((response) => {
+                if (response === true) {
+                    console.log("Session is active", response);
                     toast.info('You are already login, you can click on home button to go to home page', {
                         position: "top-center",
                     })
                     setIsUserLogin(true);
                 }
-                else{
-                    console.log("Session is closed",response);;
-                    const loginUrl = RoutesConts.LOGIN+'?userId='+userid;
+                else {
+                    console.log("Session is closed", response);;
+                    const loginUrl = RoutesConts.LOGIN + '?userId=' + userid;
                     setTimeout(() => history(loginUrl), 1000);
                 }
             });
         }
-        else{
+        else {
             history(RoutesConts.SIGNUP)
         }
-        }, []);
+    }, []);
 
 
     const [data, setData] = useState([]);
@@ -62,16 +62,16 @@ const Login = () => {
         })
     }
 
-    async function sendOtpToUser(e){
+    async function sendOtpToUser(e) {
         e.preventDefault();
         console.log("sendOtpToUser():");
-        if(!inpval.phonenumber || inpval.phonenumber.length!=10){
+        if (!inpval.phonenumber || inpval.phonenumber.length != 10) {
             toast.error('please enter valid phonenumber', {
                 position: "top-center",
             });
             return;
         }
-        await sendOtp(MITRA_APP_BACKEND.SEND_OTP, {phonenumber : inpval.phonenumber,userid : userid});
+        await sendOtp(JOBS_BACKEND.SEND_OTP, { phonenumber: inpval.phonenumber, userid: userid });
     }
 
 
@@ -91,12 +91,8 @@ const Login = () => {
             toast.error('phonenumber muts be of 10 length', {
                 position: "top-center",
             });
-        } else if (otp.length != 4) {
-            toast.error('otp must be of 4 length', {
-                position: "top-center",
-            });
         } else {
-            const response = await loginUser(MITRA_APP_BACKEND.LOGIN_USER,
+            const response = await loginUser(JOBS_BACKEND.LOGIN_USER,
                 {
                     phonenumber: inpval.phonenumber,
                     otp: inpval.otp,
@@ -135,7 +131,7 @@ const Login = () => {
                             </Button>
                         </Form>
                         <p className='mt-3'>Already Have an Account <span>SignIn</span> </p>
-                        
+
                         {isUserLogin === true && (
                             <span><NavLink to="/mitra/jobs">Go to Home</NavLink></span>
                         )}
@@ -145,7 +141,7 @@ const Login = () => {
                             color: '#43B97F',
                             fontFamily: 'Fantasy'
                         }}>If you want to get hired, then this is the right place</h5>
-                                                <hr />
+                        <hr />
 
                         <ul>
                             <li>You can apply jobs</li>

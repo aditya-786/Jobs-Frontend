@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { routeMap, RoutesConts, stacks, MITRA_APP_BACKEND } from '../../../constants/RouterConstants';
+import { routeMap, RoutesConts, stacks, JOBS_BACKEND } from '../../../constants/RouterConstants';
 import { useEffect, useState } from 'react';
 import { sendOtp, loginUser, isSessionActive, getNotAppliedJobs } from '../../../service/Api'
 import { NavLink } from 'react-router-dom'
@@ -14,42 +14,42 @@ import Typography from '@mui/material/Typography';
 
 const steps = [];
 
-export default function JobStatus({jobLevels, currentJobLevel, currentJobStatus, currentJobStatusMessage,activeStep}) {
+export default function JobStatus({ jobLevels, currentJobLevel, currentJobStatus, currentJobStatusMessage, activeStep }) {
 
   useEffect(() => {
     console.log(currentJobLevel);
 
-}, []);
+  }, []);
 
   const checkStatus = (step) => {
     return step === 2;
   };
 
-  let labelProps= { optional: React.ReactNode,error : false};
+  let labelProps = { optional: React.ReactNode, error: false };
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>
         {jobLevels.map((label, index) => {
-          if (index< activeStep) {
+          if (index < activeStep) {
             labelProps.optional = (
               <Typography variant="caption" style={{
-                color :'green'
+                color: 'green'
               }}>
                 PASSED
               </Typography>
             );
           }
-          else if (index === activeStep){
+          else if (index === activeStep) {
             labelProps.optional = (
-              <Typography variant="caption" style = {{
-                color : (currentJobStatus === 'PASSED'? 'green' : (currentJobStatus === 'FAILED')?'red':'#90EE90')
+              <Typography variant="caption" style={{
+                color: (currentJobStatus === 'PASSED' ? 'green' : (currentJobStatus === 'FAILED') ? 'red' : '#90EE90')
               }}>
-               {currentJobStatus}
+                {currentJobStatus}
               </Typography>
             );
-            if(currentJobStatus === 'FAILED') labelProps.error = true;
+            if (currentJobStatus === 'FAILED') labelProps.error = true;
           }
-          else{
+          else {
             // greater than activeStep.
             labelProps.optional = (
               <Typography variant="caption">
