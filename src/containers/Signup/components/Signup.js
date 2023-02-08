@@ -152,7 +152,7 @@ const Signup = () => {
                                 Submit
                             </Button>
                         </Form>
-                        <p className='mt-3'>Already Have an Account <span><NavLink to="mitra/login"> SignIn</NavLink></span> </p>
+                        <p className='mt-3'>Already Have an Account <span><NavLink to="login"> SignIn</NavLink></span> </p>
                     </div>
                     <SIgn_img />
                 </section>
