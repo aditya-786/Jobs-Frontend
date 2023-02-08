@@ -133,7 +133,7 @@ const Login = () => {
                         <p className='mt-3'>Already Have an Account <span>SignIn</span> </p>
 
                         {isUserLogin === true && (
-                            <span><NavLink to="/mitra/jobs">Go to Home</NavLink></span>
+                            <span><NavLink to="/jobs">Go to Home</NavLink></span>
                         )}
                     </div>
                     <Card variant="outlined">

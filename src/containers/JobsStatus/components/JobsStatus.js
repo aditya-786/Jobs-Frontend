@@ -63,16 +63,16 @@ const JobsStatus = () => {
         }}>
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/mitra/jobs">New Jobs</a>
+                    <a class="nav-link" aria-current="page" href="/jobs">New Jobs</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Jobs Status</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/mitra/referral">Referrals</a>
+                    <a class="nav-link" href="/referral">Referrals</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/mitra/profile">Profile</a>
+                    <a class="nav-link" href="/profile">Profile</a>
                 </li>
             </ul>
 

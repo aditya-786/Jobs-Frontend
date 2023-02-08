@@ -37,13 +37,13 @@ const Jobs = () => {
                     <a class="nav-link active" aria-current="page" href="#">New Jobs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/mitra/jobsStatus">Jobs Status</a>
+                    <a class="nav-link" href="/jobsStatus">Jobs Status</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/mitra/referral">Referrals</a>
+                    <a class="nav-link" href="/referral">Referrals</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/mitra/profile">Profile</a>
+                    <a class="nav-link" href="/profile">Profile</a>
                 </li>
             </ul>
 
