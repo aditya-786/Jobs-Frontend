@@ -8,16 +8,15 @@ export async function registerUser(backendUrl, data) {
         url: `${JOBS_BACKEND.HOST}${backendUrl}`,
         headers: {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Credentials': 'true',
-            'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
-            'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
-            "Cache-Control": null,
-            "X-Requested-With": null
         },
         data: data
     };
     let response = await axios(config);
-    console.log("Here the data: ", response.data);
+
+    if (response.data.exists) {
+        return response.data;
+    }
+
     if (!response.data.payload) {
         toast.error(response.data.message, {
             position: "top-center",
@@ -37,9 +36,17 @@ export async function sendOtp(backendUrl, data) {
         data: data
     };
     let response = await axios(config);
-    toast.success(response.data.message, {
-        position: "top-center",
-    });
+
+    if (response.data.otpSent) {
+        toast.success(response.data.message, {
+            position: "top-center",
+        });
+    } else {
+        toast.error(response.data.message, {
+            position: 'top-center'
+        });
+    }
+    return response.data;
 }
 
 export async function loginUser(backendUrl, data) {
@@ -70,6 +77,21 @@ export async function loginUser(backendUrl, data) {
     return response.data;
 }
 
+export async function isUserExists(userid) {
+    const config = {
+        method: 'get',
+        // url: `${JOBS_BACKEND.HOST}${JOBS_BACKEND.CHECK_USER_EXISTS}?userid=${userid}`,
+        url: `${JOBS_BACKEND.HOST}/isUserExists?userid=${userid}`,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    console.log(config);
+    const response = await axios(config);
+
+    return response.data.status === 'success';
+}
+
 
 export async function isSessionActive(backendUrl, params) {
     var config = {
@@ -94,9 +116,9 @@ export async function isSessionActive(backendUrl, params) {
 
     }
     else {
-        toast.info('User has been logout, please login again', {
-            position: "top-center",
-        });
+        // toast.info('User has been logout, please login again', {
+        //     position: "top-center",
+        // });
     }
     return false;
 }

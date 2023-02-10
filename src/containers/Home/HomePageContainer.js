@@ -30,7 +30,7 @@ const HomePageContainer = () => {
                 else {
                     console.log("Session is closed", response);;
                     const loginUrl = RoutesConts.LOGIN + '?userId=' + userid;
-                    setTimeout(() => history(loginUrl), 1000);
+                    setTimeout(() => history(RoutesConts.LOGIN), 1000);
                 }
             });
         }

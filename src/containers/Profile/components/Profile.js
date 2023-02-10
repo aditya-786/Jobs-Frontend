@@ -131,6 +131,7 @@ const Profile = () => {
         logoutApi().then((response) => {
             // setCities(response);
             console.log(response);
+            localStorage.removeItem('userid');
             alert("Profile Logout successfully")
             window.location.reload();
             // console.log("cities api -> ", response);
