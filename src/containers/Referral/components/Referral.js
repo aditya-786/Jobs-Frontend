@@ -56,7 +56,7 @@ const Referral = () => {
 
     return (
         <div>
-            <ul class="nav nav-tabs">
+            {/* <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a class="nav-link" href="/jobs">New Jobs</a>
                 </li>
@@ -69,7 +69,7 @@ const Referral = () => {
                 <li class="nav-item">
                     <a class="nav-link" href="/profile">Profile</a>
                 </li>
-            </ul>
+            </ul> */}
             <h5 style={{
                 color: '#212429',
                 textAlign: 'center',

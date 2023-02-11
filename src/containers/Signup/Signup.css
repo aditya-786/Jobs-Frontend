@@ -58,7 +58,7 @@
     margin-bottom: 0;
   }
   #login-form .ant-form-item-label > label.ant-form-item-required::before {
-    display: none;
+    /* display: none; */
   }
   .ant-form-item-control-input-content {
     text-align: left;

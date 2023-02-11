@@ -10,12 +10,56 @@ import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+// import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { Form, Input, Select, Typography, Checkbox, Button, DatePicker, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import { DEFAULT_COLOR } from '../../../constants/colorConstants';
+import { BsAsterisk } from 'react-icons/bs';
+import moment from 'moment';
+const { Text } = Typography;
+const { Option } = Select;
 
 const Profile = () => {
     let userid = localStorage.getItem("userid");
     const history = useNavigate();
     const [cities, setCities] = useState([]);
+    const [accountCreated, setAccountCreated] = useState(true);
+    const [buttonClicked, setButtonClicked] = useState(false);
+    const addData = () => {
+
+    }
+    const onSelectDob = (date, dateString) => {
+        setUserInfo({
+            ...UserInfo,
+            dob: dateString
+        });
+    }
+
+    const onSelectGender = (gender, genderString) => {
+        const { value } = genderString;
+        setUserInfo({
+            ...UserInfo,
+            gender: value
+        });
+    }
+
+    const onSelectExperience = (exp, expStr) => {
+        const { value } = expStr;
+        setUserInfo({
+            ...UserInfo,
+            experience: value
+        });
+    }
+
+    const onSelectQualification = (qual, qualStr) => {
+        const { value } = qualStr;
+        setUserInfo({
+            ...UserInfo,
+            qualification: value
+        });
+    }
+
+    const [form] = Form.useForm();
 
     const [UserInfo, setUserInfo] = useState({
         firstname: 'NA',
@@ -49,12 +93,13 @@ const Profile = () => {
         e.preventDefault();
     };
 
-    const handleChange = e => {
+    const getdata = e => {
         e.preventDefault();
-        const { value } = e.target;
+        const { id, value } = e.target;
+        const name = id.split('_')[1];
         setUserInfo({
             ...UserInfo,
-            [e.target.name]: value,
+            [name]: value,
         });
     };
 
@@ -97,11 +142,13 @@ const Profile = () => {
             UserInfo.city = response.payload.city;
             UserInfo.userid = userid
 
-            setUserInfo(UserInfo);
+            setUserInfo({ ...UserInfo, email: UserInfo.email });
             console.log("Info -> ", UserInfo);
+            form.setFieldValue(UserInfo);
+            setAccountCreated(false);
         });
 
-    }, []);
+    }, [userid]);
 
     async function saveProfile(e) {
         e.preventDefault();
@@ -115,11 +162,16 @@ const Profile = () => {
 
         saveProfile().then((response) => {
             // setCities(response);
-            alert("Profile updated")
-            window.location.reload();
+            toast.success('Profile updated', {
+                position: 'top-center'
+            });
+            // window.location.reload();
             // console.log("cities api -> ", response);
         });
+        // console.log(userdata);
     }
+
+    const delay = ms => new Promise(res => setTimeout(res, ms));
 
     async function logout(e) {
         e.preventDefault();
@@ -132,279 +184,403 @@ const Profile = () => {
             // setCities(response);
             console.log(response);
             localStorage.removeItem('userid');
-            alert("Profile Logout successfully")
+            toast.success('Profile log out successfully', {
+                position: 'top-center'
+            });
+            delay(3000);
             window.location.reload();
             // console.log("cities api -> ", response);
         });
 
     }
 
+    const [addressDetailsClicked, setAddressDetailsClicked] = useState(false);
+    const [educationDetailsClicked, setEducationDetailsClicked] = useState(false);
+    const [jobDetailsClicked, setJobDetailsClicked] = useState(false);
+    const [documentDetailsClicked, setDocumentDetailsClicked] = useState(false);
+
 
     return (
-        <div>
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link" href="/jobs">New Jobs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/jobsStatus">Jobs Status</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/referral">Referrals</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Profile</a>
-                </li>
-            </ul>
-            <div class="card">
-                <div class="card-body">
-                    <h5 style={{
-                        color: '#212429',
-                        textAlign: 'center',
-                        margin: '1%',
-                        fontFamily: 'Andale Mono',
-                        fontWeight: 'bold'
-                    }}>Profile Details</h5>
-                    <hr></hr>
-                    <div class="card" style={{
-                        margin: 'auto',
-                        width: '100%',
-                        padding: '10px',
-                    }}>
-                        <form>
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>
-                                <label >First Name</label>
-                                <input type="text" class="form-control" placeholder="Enter firstname" name="firstname" value={UserInfo.firstname} onChange={handleChange} />
-                            </div>
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Last Name</label>
-                                <input type="text" class="form-control" placeholder="Enter lastname" name="lastname" value={UserInfo.lastname} onChange={handleChange} />
-                            </div>
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Phone Number</label>
-                                <input type="text" class="form-control" placeholder="Enter phonenumber" name="phonenumber" value={UserInfo.phonenumber} onChange={handleChange} />
-                            </div>
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Email</label>
-                                <input type="text" class="form-control" placeholder="Enter email" name="email" value={UserInfo.email} onChange={handleChange} />
-                            </div>
-
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >DOB</label>
-                                <input type="text" class="form-control" placeholder="Enter dob" name="dob" value={UserInfo.dob} onChange={handleChange} />
-                                <p style={{
-                                    color: 'gray',
-                                    marginLeft: '1%',
-                                    fontSize: '15px'
-                                }}>  Please Enter DOB FORMAT (YYYY-MM-DD)</p>
-                            </div>
-
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Gender</label>
-                                <input type="text" class="form-control" placeholder="Enter gender" name="gender" value={UserInfo.gender} onChange={handleChange} />
-                            </div>
-
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Age</label>
-                                <input type="number" class="form-control" placeholder="Enter age" name="age" value={UserInfo.age} onChange={handleChange} />
-                            </div>
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Mother Name</label>
-                                <input type="text" class="form-control" placeholder="Enter mothername" name="mothername" value={UserInfo.mothername} onChange={handleChange} />
-                            </div>
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Father Name</label>
-                                <input type="text" class="form-control" placeholder="Enter fathername" name="fathername" value={UserInfo.fathername} onChange={handleChange} />
-                            </div>
-
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >City Name</label>
-                                <input type="text" class="form-control" placeholder="Enter city" name="city" value={UserInfo.city} onChange={handleChange} disabled={true} />
-                            </div>
-
-
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>
-
-                                <label style={{
-                                    // margin: '1%'
-                                }}>Choose City</label>
-                                <Box sx={{ minWidth: 120 }}>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">City</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={UserInfo.city}
-                                            label="city"
-                                            name="city"
-                                            onChange={handleChange}
-                                        >
-                                            {cities.length > 0 && cities.map((cityname, index) => (
-                                                <MenuItem value={cityname.name}>{cityname.name}</MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                </Box>
-                            </div>
-
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Present Address</label>
-                                <input type="text" class="form-control" placeholder="Enter present addresss" name="presentaddress" value={UserInfo.presentaddress} onChange={handleChange} />
-                            </div>
-
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Pancard</label>
-                                <input type="text" class="form-control" placeholder="Enter pancard" name="pancard" value={UserInfo.pancard} onChange={handleChange} />
-                            </div>
-
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Adhar Card</label>
-                                <input type="text" class="form-control" placeholder="Enter Adhar card" name="adharcard" value={UserInfo.adharcard} onChange={handleChange} />
-                            </div>
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Driving License</label>
-                                <input type="text" class="form-control" placeholder="Enter driving license" name="drivinglicense" value={UserInfo.drivinglicense} onChange={handleChange} />
-                            </div>
-
-
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Qualification</label>
-                                <input type="text" class="form-control" placeholder="Enter qualification" name="qualification" value={UserInfo.qualification} onChange={handleChange} disabled={true} />
-                            </div>
-
-
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>
-
-                                <label style={{
-                                    // margin: '1%'
-                                }}>Choose Qualification</label>
-                                <Box sx={{ minWidth: 120 }}>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Qualification</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={UserInfo.qualification}
-                                            label="qualification"
-                                            name="qualification"
-                                            onChange={handleChange}
-                                        >
-                                            <MenuItem value='ITI'>ITI</MenuItem>
-                                            <MenuItem value='Diploma'>Diploma</MenuItem>
-                                            <MenuItem value='btech'>B.Tech</MenuItem>
-                                            <MenuItem value='mtech'>M.Tech</MenuItem>
-                                            <MenuItem value='phd'>Phd</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Box>
-                            </div>
-
-
-
-
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Experience</label>
-                                <input type="text" class="form-control" placeholder="Enter experience" name="experience" value={UserInfo.experience} onChange={handleChange} disabled={true} />
-                            </div>
-
-
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>
-
-                                <label style={{
-                                    // margin: '1%'
-                                }}>Choose Experience</label>
-                                <Box sx={{ minWidth: 120 }}>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Experience</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={UserInfo.experience}
-                                            label="experience"
-                                            name="experience"
-                                            onChange={handleChange}
-                                        >
-                                            <MenuItem value='Fresher'>No Experience</MenuItem>
-                                            <MenuItem value='Less than 1 year'>Less than 1 yr</MenuItem>
-                                            <MenuItem value='1 to 2 years'>1 to 2 years</MenuItem>
-                                            <MenuItem value='2 to 5 years'>2 to 5 years</MenuItem>
-                                            <MenuItem value='More than 5 years'>More than 5 years</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Box>
-                            </div>
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Current employeer</label>
-                                <input type="text" class="form-control" placeholder="Enter currentemployeer" name="currentemployeer" value={UserInfo.currentemployeer} onChange={handleChange} />
-                            </div>
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Current Job Role</label>
-                                <input type="text" class="form-control" placeholder="Enter currentjobrole" name="currentjobrole" value={UserInfo.currentjobrole} onChange={handleChange} />
-                            </div>
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Salary Per Month</label>
-                                <input type="text" class="form-control" placeholder="Enter salarypermonth (only in integers)" name="salarypermonth" value={UserInfo.salarypermonth} onChange={handleChange} />
-                            </div>
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Language Comfortable</label>
-                                <input type="text" class="form-control" placeholder="Enter languagecomfortable" name="languagecomfortable" value={UserInfo.languagecomfortable} onChange={handleChange} />
-                            </div>
-
-                            <div class="form-group" style={{
-                                margin: '2%'
-                            }}>                        <label >Resume link</label>
-                                <input type="text" class="form-control" placeholder="Enter resumelink" name="resumelink" value={UserInfo.resumelink} onChange={handleChange} />
-                            </div>
-
-
-
-                            <div class="form-group" style={{
-                                margin: '2%',
-                                float: 'right'
-                            }}>
-                                <button type="submit" class="btn btn-primary btn-lg" onClick={saveProfile}>Save</button>
-                            </div>
-
-                            <div class="form-group" style={{
-                                margin: '2%',
-                                float: 'left'
-                            }}>
-                                <button type="button" class="btn btn-danger btn-lg" onClick={logout}>Logout</button>
-                            </div>
-                        </form>
-
-
+        <div className='login-page' style={{ backgroundColor: '#FFFFFF' }}>
+            <div className="login-box">
+                {!accountCreated &&
+                    <div className="illustration-wrapper">
+                        <img
+                            src="https://cdn.dribbble.com/users/108637/screenshots/2971812/comp_1.gif" alt="login" />
                     </div>
-                </div>
+                }
+                {!accountCreated &&
+                    <Form
+                        name="login-form"
+                        initialValues={{
+                            firstname: UserInfo.firstname,
+                            lastname: UserInfo.lastname,
+                            email: UserInfo.email,
+                            phonenumber: UserInfo.phonenumber,
+                            gender: UserInfo.gender,
+                            dob: moment(UserInfo.dob),
+                            city: UserInfo.city || 'NA',
+                            presentaddress: UserInfo.presentaddress || 'NA',
+                            qualification: UserInfo.qualification,
+                            experience: UserInfo.experience,
+                            languagecomfortable: UserInfo.languagecomfortable,
+                            currentemployeer: UserInfo.currentemployeer || 'NA',
+                            currentjobrole: UserInfo.currentjobrole || 'NA',
+                            salarypermonth: UserInfo.salarypermonth || '0',
+                            resumelink: UserInfo.resumelink || 'NA',
+                            adharcard: UserInfo.adharcard || 'NA',
+                            pancard: UserInfo.pancard || 'NA',
+                            drivinglicense: UserInfo.drivinglicense || 'NA'
+                        }}
+                        form={form}
+                    >
+                        <p className="form-title">Hey {UserInfo.firstname}!</p>
+                        <p>Have a look at your profile</p>
+                        <Form.Item
+                            name="firstname"
+                            label='First Name'
+                            style={{ display: 'flex', flexDirection: 'column' }}
+                            rules={[{ required: true, message: 'Please input your first name!' }]}
+                        >
+                            <Input
+                                placeholder="Enter your first name"
+                                onChange={getdata}
+                            />
+                        </Form.Item>
 
+                        <Form.Item
+                            name="lastname"
+                            label='Last Name'
+                            rules={[{ required: true, message: 'Please input your last name!' }]}
+                        >
+                            <Input
+                                placeholder="Enter your last name"
+                                onChange={getdata}
+                            />
+                        </Form.Item>
+
+                        <Form.Item
+                            name="phonenumber"
+                            label='Mobile'
+                            rules={[{ required: true, message: 'Please input your phone number!' }]}
+                        >
+                            <Input
+                                addonBefore={(
+                                    <Form.Item name="prefix" noStyle>
+                                        +91
+                                    </Form.Item>
+                                )}
+                                placeholder="Phone Number"
+                                disabled={true}
+                            />
+                        </Form.Item>
+
+                        <Form.Item
+                            name="email"
+                            label='Email'
+                            rules={[
+                                {
+                                    type: 'email',
+                                    message: 'The input is not valid E-mail!',
+                                },
+                                {
+                                    required: true,
+                                    message: 'Please input your E-mail!',
+                                },
+                            ]}
+                        >
+                            <Input
+                                placeholder="Email"
+                                onChange={getdata}
+                                disabled={true}
+                            />
+                        </Form.Item>
+
+                        <Form.Item
+                            name="dob"
+                            label='Date of Birth'
+                            rules={[{ required: true, message: 'Please input your date of birth!' }]}
+                            width='100%'
+                        >
+                            <DatePicker style={{ width: '100%' }} placeholder='Select Date of birth'
+                                onChange={onSelectDob}
+                            />
+                        </Form.Item>
+
+                        <Form.Item
+                            name="gender"
+                            label='Gender'
+                            rules={[{ required: true, message: 'Please Select your Gender!' }]}
+                        >
+                            <Select
+                                style={{
+                                    width: '100%',
+                                }}
+                                placeholder='Select your gender'
+                                onChange={onSelectGender}
+                            >
+                                <Option value="male">Male</Option>
+                                <Option value="female">Female</Option>
+                                <Option value="transgender">TransGender</Option>
+                            </Select>
+                        </Form.Item>
+
+                        {!addressDetailsClicked &&
+                            <Form.Item>
+                                <Button style={{ backgroundColor: '#000' }} type="primary" prefix='' htmlType="submit" className="login-form-button" onClick={() => {
+                                    setJobDetailsClicked(false); setAddressDetailsClicked(true); setEducationDetailsClicked(false); setDocumentDetailsClicked(false);
+                                }
+                                }>
+                                    Check address details
+                                </Button>
+                            </Form.Item>
+                        }
+
+                        {addressDetailsClicked &&
+                            (<>
+                                <Form.Item
+                                    name="city"
+                                    label='City'
+                                    rules={[{ required: true, message: 'Please input your city name!' }]}
+                                >
+                                    <Input
+                                        placeholder="Enter your city name"
+                                        onChange={getdata}
+                                        style={{ textTransform: 'capitalize' }}
+                                    />
+                                </Form.Item>
+
+
+                                <Form.Item
+                                    name="presentaddress"
+                                    label='Present Address'
+                                    rules={[{ required: true, message: 'Please input your present address!' }]}
+                                >
+                                    <Input
+                                        placeholder="Enter your present address"
+                                        onChange={getdata}
+                                    />
+                                </Form.Item></>)
+                        }
+
+                        {!educationDetailsClicked &&
+                            <Form.Item>
+                                <Button style={{ backgroundColor: '#000' }} type="primary" prefix='' htmlType="submit" className="login-form-button" onClick={() => {
+                                    setJobDetailsClicked(false); setAddressDetailsClicked(false); setEducationDetailsClicked(true); setDocumentDetailsClicked(false);
+                                }
+                                }>
+                                    Check education details
+                                </Button>
+                            </Form.Item>
+                        }
+
+                        {educationDetailsClicked &&
+                            (<>
+                                <Form.Item
+                                    name="qualification"
+                                    label='Qualification'
+                                    rules={[{ required: true, message: 'Please select your highest qualification!' }]}
+                                >
+                                    <Select
+                                        style={{
+                                            width: '100%',
+                                        }}
+                                        placeholder='Select your qualification'
+                                        onChange={onSelectQualification}
+                                    >
+                                        <Option value="iti">ITI</Option>
+                                        <Option value="diploma">Diploma</Option>
+                                        <Option value="btech">B.Tech</Option>
+                                        <Option value="mtech">M.Tech</Option>
+                                        <Option value="phd">P.Hd</Option>
+                                    </Select>
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="experience"
+                                    label='Experience'
+                                    rules={[{ required: true, message: 'Please select your experience!' }]}
+                                >
+                                    <Select
+                                        style={{
+                                            width: '100%',
+                                        }}
+                                        placeholder='Select your Experience'
+                                        onChange={onSelectExperience}
+                                    >
+                                        <Option value="fresher">Fresher</Option>
+                                        <Option value="Less than 1 year">Less than 1 year</Option>
+                                        <Option value="1 to 2 years">1-2 Years</Option>
+                                        <Option value="2 to 5 years">2-5 Years</Option>
+                                        <Option value="More than 5 years">5+ Years</Option>
+                                    </Select>
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="languagecomfortable"
+                                    label='Language Comfortable'
+                                    rules={[{ required: true, message: 'Please input your language comfortable!' }]}
+                                >
+                                    <Input
+                                        placeholder="Enter your language comfortable"
+                                        onChange={getdata}
+                                    />
+                                </Form.Item>
+                            </>)}
+
+                        {!jobDetailsClicked &&
+                            <Form.Item>
+                                <Button style={{ backgroundColor: '#000' }} type="primary" prefix='' htmlType="submit" className="login-form-button" onClick={() => {
+                                    setJobDetailsClicked(true); setAddressDetailsClicked(false); setEducationDetailsClicked(false); setDocumentDetailsClicked(false);
+                                }}>
+                                    Check job details
+                                </Button>
+                            </Form.Item>
+                        }
+
+                        {jobDetailsClicked &&
+                            (<>
+                                <Form.Item
+                                    name="currentemployeer"
+                                    label='Current Employeer'
+                                    rules={[{ required: true, message: 'Please input your current employeer!' }]}
+                                >
+                                    <Input
+                                        placeholder="Enter your current employeer"
+                                        onChange={getdata}
+                                    />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="currentjobrole"
+                                    label='Current Job Role'
+                                    rules={[{ required: true, message: 'Please input your current job role!' }]}
+                                >
+                                    <Input
+                                        placeholder="Enter your current job role"
+                                        onChange={getdata}
+                                    />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="salarypermonth"
+                                    label='Salary per month'
+                                    rules={[{ required: true, message: 'Please input your salary per month!' }]}
+                                >
+                                    <Input
+                                        placeholder="Enter your salary per month"
+                                        onChange={getdata}
+                                        addonBefore={(
+                                            <Form.Item name="prefix" noStyle>
+                                                ₹
+                                            </Form.Item>
+                                        )}
+                                    />
+                                </Form.Item>
+                            </>)}
+
+                        {!documentDetailsClicked &&
+                            <Form.Item>
+                                <Button type="primary" prefix='' htmlType="submit" className="login-form-button" style={{ backgroundColor: '#000' }} onClick={() => {
+                                    setJobDetailsClicked(false); setAddressDetailsClicked(false); setEducationDetailsClicked(false); setDocumentDetailsClicked(true);
+                                }}>
+                                    Check document details
+                                </Button>
+                            </Form.Item>
+                        }
+
+                        {documentDetailsClicked &&
+                            (<>
+                                <Form.Item
+                                    name="resumelink"
+                                    label='Resume'
+                                    rules={[{ required: true, message: 'Please insert google drive resume link, else NA' }]}
+                                >
+                                    <Input
+                                        placeholder="Enter your google drive resume link"
+                                        onChange={getdata}
+                                    />
+                                </Form.Item>
+
+
+                                <Form.Item
+                                    name="adharcard"
+                                    label='Aadhar'
+                                    rules={[{ required: true, message: 'Please insert google drive aadhar link, else NA' }]}
+                                >
+                                    <Input
+                                        placeholder="Enter your google drive aadhar link"
+                                        onChange={getdata}
+                                    />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="pancard"
+                                    label='PAN Card'
+                                    rules={[{ required: true, message: 'Please insert google drive pan card link, else NA' }]}
+                                >
+                                    <Input
+                                        placeholder="Enter your google drive pan card link"
+                                        onChange={getdata}
+                                    />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="drivinglicense"
+                                    label='Driving License'
+                                    rules={[{ required: true, message: 'Please insert google drive driving license link, else NA' }]}
+                                >
+                                    <Input
+                                        placeholder="Enter your google drive driving license link"
+                                        onChange={getdata}
+                                    />
+                                </Form.Item>
+                            </>)}
+
+
+                        {/* <Form.Item name="remember" valuePropName="checked">
+                            <Checkbox>Remember me</Checkbox>
+                        </Form.Item> */}
+
+                        <Form.Item>
+                            <Button style={{ marginTop: '5%' }} disabled={buttonClicked} type="primary" prefix='' htmlType="submit" className="login-form-button" onClick={saveProfile}>
+                                Update
+                                {buttonClicked && <i
+                                    className="fa fa-refresh fa-spin"
+                                    style={{ marginLeft: "5%" }}
+                                />}
+                            </Button>
+                        </Form.Item>
+
+                        <Form.Item>
+                            <Button style={{ marginTop: '5%' }} disabled={buttonClicked} type="primary" prefix='' htmlType="submit" className="login-form-button" onClick={logout}>
+                                Sign Out
+                                {buttonClicked && <i
+                                    className="fa fa-refresh fa-spin"
+                                    style={{ marginLeft: "5%" }}
+                                />}
+                            </Button>
+                        </Form.Item>
+
+                        {/* <Form.Item>
+                            <Text>Already registered?   </Text>
+                            <Text style={{ fontWeight: 700, color: DEFAULT_COLOR }} className='move-to-diff-page' onClick={() => history(RoutesConts.LOGIN)}>Login here</Text>
+                        </Form.Item> */}
+                    </Form>}
+                {accountCreated &&
+                    // <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', width: '100%', height: '100%' }}>
+                    //     <img src='https://media.tenor.com/BntXpMlrGuEAAAAC/check-correct.gif' alt='registered' />
+                    //     <h5 style={{ textAlign: 'center' }}>Account Created Successfully</h5>
+                    // </div>
+                    <Spin indicator={<LoadingOutlined
+                        style={{
+                            fontSize: 24,
+                        }}
+                        spin
+                    />} size='large' tip='Loading...' />
+                }
             </div>
+            <ToastContainer />
         </div>
     );
 };

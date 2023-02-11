@@ -57,6 +57,7 @@ const Login = () => {
 
     const [data, setData] = useState([]);
     const [accountCreated, setAccountCreated] = useState(false);
+    const [buttonClicked, setButtonClicked] = useState(false);
     const getdata = (e) => {
         const { value, id } = e.target;
         const name = id.split('_')[1];
@@ -71,6 +72,7 @@ const Login = () => {
 
     async function sendOtpToUser(e) {
         e.preventDefault();
+        setButtonClicked(true);
         console.log("sendOtpToUser():");
         console.log(localStorage.getItem('userid'));
         if (!inpval.phonenumber || inpval.phonenumber.length != 10) {
@@ -86,11 +88,13 @@ const Login = () => {
         if (response.userid) {
             localStorage.setItem('userid', response.userid);
         }
+        setButtonClicked(false);
     }
 
 
     async function loginIntoWebsite(e) {
         e.preventDefault();
+        setButtonClicked(true);
         const { phonenumber, otp } = inpval;
         if (phonenumber === "") {
             toast.error('phonenumber field is requred', {
@@ -117,12 +121,13 @@ const Login = () => {
                 history(jobsUrl)
             }
         }
+        setButtonClicked(false);
     }
 
     return (
         <>
             {!loading &&
-                <div className='login-page'>
+                <div className='login-page' style={{marginTop: '-5%', backgroundColor: '#FFFFFF'}}>
                     <div className="login-box">
                         <div className="illustration-wrapper">
                             <img
@@ -151,8 +156,12 @@ const Login = () => {
                             </Form.Item>
 
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" className="login-form-button" onClick={sendOtpToUser}>
+                                <Button disabled={buttonClicked} type="primary" htmlType="submit" className="login-form-button" onClick={sendOtpToUser}>
                                     {otpSent ? 'Resend OTP' : 'Send OTP'}
+                                    {buttonClicked && <i
+                                        className="fa fa-refresh fa-spin"
+                                        style={{ marginLeft: "5%" }}
+                                    />}
                                 </Button>
                             </Form.Item>
 
@@ -170,8 +179,12 @@ const Login = () => {
 
                             {otpSent &&
                                 <Form.Item>
-                                    <Button type="primary" htmlType="submit" className="login-form-button" onClick={loginIntoWebsite}>
+                                    <Button disabled={buttonClicked} type="primary" htmlType="submit" className="login-form-button" onClick={loginIntoWebsite}>
                                         Login
+                                        {buttonClicked && <i
+                                            className="fa fa-refresh fa-spin"
+                                            style={{ marginLeft: "5%" }}
+                                        />}
                                     </Button>
                                 </Form.Item>
                             }

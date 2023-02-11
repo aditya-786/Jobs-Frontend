@@ -59,6 +59,7 @@ const Signup = () => {
     const [data, setData] = useState([]);
     const [accountCreated, setAccountCreated] = useState(false);
     const [alreadyRegistered, setAlreadyRegistered] = useState(false);
+    const [buttonClicked, setButtonClicked] = useState(false);
 
     const onSelectDob = (date, dateString) => {
         setInpval({
@@ -141,6 +142,7 @@ const Signup = () => {
                 position: "top-center",
             });
         } else {
+            setButtonClicked(true);
             const data = preparaUserRegistrationData();
             const response = await registerUser(JOBS_BACKEND.REGISTER_USER, data)
 
@@ -164,6 +166,7 @@ const Signup = () => {
             }
             console.log(data);
             console.log("data added succesfully");
+            setButtonClicked(false);
         }
 
     }
@@ -261,8 +264,12 @@ const Signup = () => {
                         </Form.Item>
 
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" className="login-form-button" onClick={addData}>
+                            <Button disabled={buttonClicked} type="primary" prefix='' htmlType="submit" className="login-form-button" onClick={addData}>
                                 Register
+                                {buttonClicked && <i
+                                    className="fa fa-refresh fa-spin"
+                                    style={{ marginLeft: "5%" }}
+                                />}
                             </Button>
                         </Form.Item>
 
@@ -274,7 +281,7 @@ const Signup = () => {
                 {accountCreated &&
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', width: '100%', height: '100%' }}>
                         <img src='https://media.tenor.com/BntXpMlrGuEAAAAC/check-correct.gif' alt='registered' />
-                        <h5 style={{textAlign: 'center'}}>Account Created Successfully</h5>
+                        <h5 style={{ textAlign: 'center' }}>Account Created Successfully</h5>
                     </div>}
             </div>
             <ToastContainer />
