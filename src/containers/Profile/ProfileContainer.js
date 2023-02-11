@@ -22,13 +22,13 @@ const ProfileContainer = () => {
             checkSession().then((response) => {
                 if (response === true) {
                     console.log("Session is active", response);
-                    const profileUrl = RoutesConts.PROFILE + '?userId=' + userid;
+                    const profileUrl = RoutesConts.PROFILE;
                     history(profileUrl);
 
                 }
                 else {
                     console.log("Session is closed", response);;
-                    const loginUrl = RoutesConts.LOGIN + '?userId=' + userid;
+                    const loginUrl = RoutesConts.LOGIN;
                     setTimeout(() => history(loginUrl), 1000);
                 }
             });
