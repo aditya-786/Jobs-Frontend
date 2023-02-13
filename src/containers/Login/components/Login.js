@@ -11,6 +11,7 @@ import Card from '@mui/material/Card';
 import { sendOtp, loginUser, isSessionActive } from '../../../service/Api'
 import { NavLink } from 'react-router-dom'
 import { DEFAULT_COLOR } from '../../../constants/colorConstants'
+import Loading from '../../../components/Loading';
 const { Text } = Typography;
 
 
@@ -71,24 +72,31 @@ const Login = () => {
     }
 
     async function sendOtpToUser(e) {
-        e.preventDefault();
-        setButtonClicked(true);
-        console.log("sendOtpToUser():");
-        console.log(localStorage.getItem('userid'));
-        if (!inpval.phonenumber || inpval.phonenumber.length != 10) {
-            toast.error('please enter valid phonenumber', {
-                position: "top-center",
-            });
-            return;
-        }
-        const response = await sendOtp(JOBS_BACKEND.SEND_OTP, { phonenumber: inpval.phonenumber });
+        try {
+            e.preventDefault();
+            setButtonClicked(true);
+            console.log("sendOtpToUser():");
+            console.log(localStorage.getItem('userid'));
+            if (!inpval.phonenumber || inpval.phonenumber.length != 10) {
+                toast.error('please enter valid phonenumber', {
+                    position: "top-center",
+                });
+                return;
+            }
+            const response = await sendOtp(JOBS_BACKEND.SEND_OTP, { phonenumber: inpval.phonenumber });
 
-        setOtpSent(response.otpSent);
-        console.log(response);
-        if (response.userid) {
-            localStorage.setItem('userid', response.userid);
+            setOtpSent(response.otpSent);
+            console.log(response);
+            if (response.userid) {
+                localStorage.setItem('userid', response.userid);
+            }
+            setButtonClicked(false);
         }
-        setButtonClicked(false);
+        catch (error) {
+            toast.error(error, {
+                position: 'top-center'
+            });
+        }
     }
 
 
@@ -203,8 +211,9 @@ const Login = () => {
                     <ToastContainer />
                 </div>
             }
-            {loading && <img style={{display:'block', marginLeft: 'auto', marginRight: 'auto', width: '50%'}} src='https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921' alt='loading' />}
-            </>
+            {/* {loading && <img style={{display:'block', marginLeft: 'auto', marginRight: 'auto', width: '50%'}} src='https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921' alt='loading' />} */}
+            {loading && <Loading />}    
+        </>
     )
 }
 

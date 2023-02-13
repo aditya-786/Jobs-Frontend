@@ -19,7 +19,7 @@ const JobsContainer = () => {
             checkSession().then((response) => {
                 if (response === true) {
                     console.log("Session is active", response);
-                    const jobsUrl = RoutesConts.JOBS + '?userId=' + userid;
+                    const jobsUrl = RoutesConts.JOBS;
                     history(jobsUrl);
 
                 }

@@ -6,6 +6,7 @@ import { routeMap, RoutesConts, stacks, JOBS_BACKEND } from '../../constants/Rou
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import { isUserExists } from '../../service/Api';
+import Loading from '../../components/Loading';
 
 
 const SignupContainer = () => {
@@ -31,7 +32,12 @@ const SignupContainer = () => {
 
     return (
         <div>
-            {loading && <img style={{display:'block', marginLeft: 'auto', marginRight: 'auto', width: '50%'}} src='https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921' alt='loading' />}
+            {loading &&
+                // <img style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto', width: '50%' }} src='https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921' alt='loading' />
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '15%'}}>
+                    <Loading />
+                </div>
+            }
             {!loading && <Signup />}
         </div>
     )

@@ -15,6 +15,7 @@ import { Form, Input, Select, Typography, Checkbox, Button, DatePicker, Spin } f
 import { LoadingOutlined } from '@ant-design/icons';
 import { DEFAULT_COLOR } from '../../../constants/colorConstants';
 import { BsAsterisk } from 'react-icons/bs';
+import Loading from '../../../components/Loading';
 import moment from 'moment';
 const { Text } = Typography;
 const { Option } = Select;
@@ -202,7 +203,7 @@ const Profile = () => {
 
     return (
         <div className='login-page' style={{ backgroundColor: '#FFFFFF' }}>
-            <div className="login-box">
+            <div className="login-box" style={{ boxShadow: accountCreated ? 'none' : '0 0 40px rgba(0,0,0,0.16)' }}>
                 {!accountCreated &&
                     <div className="illustration-wrapper">
                         <img
@@ -536,12 +537,6 @@ const Profile = () => {
                                     />
                                 </Form.Item>
                             </>)}
-
-
-                        {/* <Form.Item name="remember" valuePropName="checked">
-                            <Checkbox>Remember me</Checkbox>
-                        </Form.Item> */}
-
                         <Form.Item>
                             <Button style={{ marginTop: '5%' }} disabled={buttonClicked} type="primary" prefix='' htmlType="submit" className="login-form-button" onClick={saveProfile}>
                                 Update
@@ -561,23 +556,9 @@ const Profile = () => {
                                 />}
                             </Button>
                         </Form.Item>
-
-                        {/* <Form.Item>
-                            <Text>Already registered?   </Text>
-                            <Text style={{ fontWeight: 700, color: DEFAULT_COLOR }} className='move-to-diff-page' onClick={() => history(RoutesConts.LOGIN)}>Login here</Text>
-                        </Form.Item> */}
                     </Form>}
                 {accountCreated &&
-                    // <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', width: '100%', height: '100%' }}>
-                    //     <img src='https://media.tenor.com/BntXpMlrGuEAAAAC/check-correct.gif' alt='registered' />
-                    //     <h5 style={{ textAlign: 'center' }}>Account Created Successfully</h5>
-                    // </div>
-                    <Spin indicator={<LoadingOutlined
-                        style={{
-                            fontSize: 24,
-                        }}
-                        spin
-                    />} size='large' tip='Loading...' />
+                    <Loading />
                 }
             </div>
             <ToastContainer />
