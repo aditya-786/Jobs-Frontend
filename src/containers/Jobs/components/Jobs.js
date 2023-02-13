@@ -64,7 +64,7 @@ const Jobs = () => {
             <hr></hr>
 
             {jobsData.length > 0 && jobsData.map((data, idx) => (
-                <JobListing data={data} />
+                <JobListing data={data} key={data.id} />
             ))}
         </div>
 

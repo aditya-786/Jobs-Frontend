@@ -95,6 +95,12 @@
       margin-right: 50px;
     }
   }
+  .job-applied{
+    width: 20%;
+    height: 200px;
+    display: block;
+    margin: auto;
+  }
 }
 
 @media (max-width: 500px) {
@@ -167,6 +173,13 @@
         margin-right: 30px;
         background-color: #d58936;
       }
+    }
+    .job-applied{
+      display: block;
+      margin: auto;
+      width: 100%;
+      margin-top: 5%;
+      height: 150px;
     }
   }
 }
