@@ -51,8 +51,8 @@ const JobListing = ({ data }) => {
                         <div className="title-and-salary">
                             <p className="job-title">{data.jobRole}</p>
                             <div className="job-salary">
-                                <GrMoney style={{ marginTop: '5px' }} />
-                                <p style={{ marginLeft: '15px' }}>{formatNumberToKFormat(data.baseSalary)} <span>/year</span></p>
+                                <GrMoney className="job-sal-icon" />
+                                <p className="job-sal-text">{formatNumberToKFormat(data.baseSalary)} <span>/year</span></p>
                             </div>
                         </div>
                         <div className="location-and-experience">

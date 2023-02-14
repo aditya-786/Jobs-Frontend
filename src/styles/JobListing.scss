@@ -1,7 +1,14 @@
 .job-main-container {
   display: "flex";
-  flex-direction: column;
-  width: 95%;
+  // flex-direction: column;
+  // width: 95%;
+
+  //new
+
+  width: 40%;
+  // flex-wrap: wrap;
+  //new
+
   background: #eeeee4;
   border-radius: 12px;
   height: auto;
@@ -38,6 +45,12 @@
           margin-top: 20px;
           margin-right: 50px;
           margin-left: auto;
+          .job-sal-icon{
+            margin-top: 5px;
+          }
+          .job-sal-text{
+            margin-left: 15px;
+          }
         }
       }
       .location-and-experience {
@@ -95,7 +108,7 @@
       margin-right: 50px;
     }
   }
-  .job-applied{
+  .job-applied {
     width: 20%;
     height: 200px;
     display: block;
@@ -105,11 +118,14 @@
 
 @media (max-width: 500px) {
   .job-main-container {
-    width: auto;
+    // width: auto;
     margin-left: 10%;
     margin-right: 10%;
     margin-top: 5%;
     margin-bottom: 5%;
+    display: flex;
+    flex-direction: column;
+    width: 95%;
 
     .job-header {
       display: flex;
@@ -117,6 +133,30 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+
+        .title-and-salary {
+          display: flex;
+          flex-direction: column;
+          .job-title {
+            margin-top: 20px;
+            font-weight: 700;
+            font-size: 16px;
+            margin-left: 20px;
+          }
+          .job-salary {
+            display: flex;
+            margin-top: 20px;
+            margin-right: 50px;
+            margin-left: 15px;
+            .job-sal-icon{
+              margin-top: 5px;
+            }
+            .job-sal-text{
+              margin-left: 15px;
+            }
+          }
+        }
+
         .location-and-experience {
           display: flex;
           flex-direction: column;
@@ -141,12 +181,12 @@
     }
 
     .job-description {
-        margin-left: 20px;
-        .job-descp-text {
-          font-size: 14px;
-          font-weight: 400;
-        }
+      margin-left: 20px;
+      .job-descp-text {
+        font-size: 14px;
+        font-weight: 400;
       }
+    }
 
     .job-btns-container {
       display: flex;
@@ -174,7 +214,7 @@
         background-color: #d58936;
       }
     }
-    .job-applied{
+    .job-applied {
       display: block;
       margin: auto;
       width: 100%;

@@ -63,13 +63,15 @@ const Jobs = () => {
             }}>New Jobs</h5>
             <hr></hr>
 
-            {jobsData.length > 0 && jobsData.map((data, idx) => (
-                <JobListing data={data} key={data.id} />
-            ))}
-            {jobsData.length === 0 && 
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                {jobsData.length > 0 && jobsData.map((data, idx) => (
+                    <JobListing data={data} key={data.id} />
+                ))}
+            </div>
+            {jobsData.length === 0 &&
                 <img src='https://cdn.dribbble.com/users/962778/screenshots/4107007/search_states.gif' alt='Nothing Found'
-                style={{display: 'block', margin: 'auto', width: '70%', height: '300px'}}    
-            />
+                    style={{ display: 'block', margin: 'auto', width: '70%', height: '300px' }}
+                />
             }
         </div>
 
