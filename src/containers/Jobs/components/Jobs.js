@@ -9,6 +9,7 @@ import { NavLink } from 'react-router-dom'
 import Job from './Job'
 import ApplyButton from './ApplyButton';
 import JobListing from '../../../components/JobListing';
+import Loading from '../../../components/Loading';
 
 const Jobs = () => {
 
@@ -74,6 +75,12 @@ const Jobs = () => {
                 <img src='https://cdn.dribbble.com/users/962778/screenshots/4107007/search_states.gif' alt='Nothing Found'
                     style={{ display: 'block', margin: 'auto', width: '70%', height: '300px' }}
                 />
+            }
+            {
+                loading &&
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '100px' }}>
+                    <Loading />
+                </div>
             }
         </div>
 
