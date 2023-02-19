@@ -15,6 +15,7 @@ const Jobs = () => {
     const userid = localStorage.getItem('userid');
     const DEFAULT_LOGO = 'https://cdn.logo.com/hotlink-ok/logo-social.png';
     const [jobsData, setJobsData] = useState([]);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         getNotAppliedJobs(JOBS_BACKEND.NOT_APPLIED_JOBS, `?userid=${userid}`)
             .then(response => {
@@ -44,6 +45,7 @@ const Jobs = () => {
                     });
                 });
                 setJobsData(jobsList);
+                setLoading(false);
             }).catch(error => {
                 console.log(error);
             });
@@ -68,7 +70,7 @@ const Jobs = () => {
                     <JobListing data={data} key={data.id} />
                 ))}
             </div>
-            {jobsData.length === 0 &&
+            {jobsData.length === 0 && !loading &&
                 <img src='https://cdn.dribbble.com/users/962778/screenshots/4107007/search_states.gif' alt='Nothing Found'
                     style={{ display: 'block', margin: 'auto', width: '70%', height: '300px' }}
                 />

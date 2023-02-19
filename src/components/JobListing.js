@@ -77,6 +77,7 @@ const JobListing = ({ data }) => {
                     </Button>
                     <Button type="primary" prefix='' htmlType="submit" className="job-btn-apply"
                         onClick={() => clickApplyJob(data.id)}
+                        disabled={jobApplying}
                     >
                         Apply
                         {jobApplying && <i
